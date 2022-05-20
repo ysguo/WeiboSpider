@@ -11,7 +11,7 @@ class DBConnector:
         self.mongo_uri = "127.0.0.1"
         self.mongo_database = "weibo"
         self.mongo_user_name = "weibo"
-        self.mongo_pass_wd = "123456"
+        self.mongo_pass_wd = "weibo"
 
     def connect(self):
         client = pymongo.MongoClient(self.mongo_uri)

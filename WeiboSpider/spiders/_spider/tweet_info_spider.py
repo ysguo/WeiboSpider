@@ -3,7 +3,7 @@
 # @Time    : 2021/7/16 16:59
 # @Function:
 
-from json import loads
+from json import loads, JSONDecodeError
 from scrapy import Request
 from WeiboSpider.base import BaseSpider
 from WeiboSpider.config import TweetConfig
@@ -40,10 +40,13 @@ class TweetInfoSpider(BaseSpider):
 
         weibo_info = loads(response.text)
         data = weibo_info['data']
-        page = data['cardlistInfo']['page']
+        # page = data['cardlistInfo']['page']
+        if data['cardlistInfo']['since_id']:
+            page = data['cardlistInfo']['since_id']
+        else:
+            page = None
         uid = response.meta['uid']
         last_page = response.meta['last_page']
-
         if page is not None and int(page) != last_page:
             url = self._t_generator.gen_url(uid=uid, page=page)
             yield Request(url=url, dont_filter=True, callback=self._parse_tweet, errback=self.parse_err,
@@ -55,12 +58,22 @@ class TweetInfoSpider(BaseSpider):
             item['tweet_info'] = card['mblog']
             if card['mblog']['isLongText']:
                 t_id = card['mblog']['id']
+                t_bid = card['mblog']['bid']
                 url = self._t_generator.gen_url(t_id=t_id)
-                longtext_req = Request(
-                    url=url, dont_filter=True, errback=self.parse_err,
-                    callback=self._parse_longtext, meta={'uid': uid, 't_id': t_id}
-                )
-                yield longtext_req
+                url_com = self._t_generator.gen_url(t_bid=t_bid)
+                try:
+                    longtext_req = Request(
+                        url=url, dont_filter=True, errback=self.parse_err,
+                        callback=self._parse_longtext, meta={'uid': uid, 't_id': t_id, 't_bid': t_bid}
+                    )
+                    yield longtext_req
+                except Exception as e:
+                    print("try .com")
+                    longtext_req = Request(
+                        url=url_com, dont_filter=True, errback=self.parse_err,
+                        callback=self._parse_longtext, meta={'uid': uid, 't_id': t_id, 't_bid': t_bid}
+                    )
+                    yield longtext_req
             yield item
 
     def _parse_longtext(self, response, **kwargs):

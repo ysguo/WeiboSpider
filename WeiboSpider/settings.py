@@ -22,7 +22,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0
+DOWNLOAD_DELAY = 2
 
 # The download delay setting will honor only one of:
 CONCURRENT_REQUESTS_PER_DOMAIN = 64
@@ -32,6 +32,17 @@ CONCURRENT_REQUESTS_PER_IP = 0
 CONCURRENT_REQUESTS = 1
 
 # Override the default request headers:
+# DEFAULT_REQUEST_HEADERS = {
+#    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+#    'Accept-Language': 'zh',
+#}
+
+#DEFAULT_REQUEST_HEADERS = {
+#    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+#    'Accept-Language': 'zh-CN,zh;q=0.9',
+#    'Cookie': 'SINAGLOBAL=1108923899813.7717.1637807606934; UOR=,,www.baidu.com; ariaDefaultTheme=default; ariaFixed=true; ariaScale=1; ariaBigsrc=false; ariaReadtype=1; ariaMouseten=null; ariaStatus=false; ULV=1652930164990:11:4:2:7922061087235.483.1652930164925:1652867655325; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WhREBuPIwBoTa75z632Q8lz5JpX5KMhUgL.FoqNS0n7SK.c1hM2dJLoIp7LxKML1KBLBKnLxKqL1hnLBoMcS0MReh-4SonN; ALF=1684555689; SSOLoginState=1653019689; SCF=Ah5BB6-7ijH27iamVozk-9ubzPTmXWY05HUIbLsGtMolrHzfGCAc99S7w2iBL13RRKctsJLOZZiTE9ZsAsn8IBE.; SUB=_2A25Pg2R6DeRhGeBJ7FoR9SfKwzuIHXVs-dKyrDV8PUNbmtAfLRnDkW9NRiNheAmgzALUDlPQDgiA1WvAudL225ph; XSRF-TOKEN=qTRfK5zjSg8IlyjlhrvHK3KV; WBPSESS=MBqW2JtgrXOE05BwrlA9SlV6vWcy8IuvvEi9wuZetVLNStYMEWF9ShuIFYE12L21zZNB54tSBQv1flctWQrLSwDmUGTpOGMu2-m952UyhW-opdJSr4Wh0twMyLo5NomXwrZdLXZ6FPCmqU9kKPznyQ=='
+#}
+
 DEFAULT_REQUEST_HEADERS = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'zh',
