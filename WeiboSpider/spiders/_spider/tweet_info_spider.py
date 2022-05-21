@@ -5,7 +5,7 @@
 
 from json import loads, JSONDecodeError
 from scrapy import Request
-from scrapy import log
+import logging
 from WeiboSpider.base import BaseSpider
 from WeiboSpider.config import TweetConfig
 from WeiboSpider.items import TweetItem, LongtextItem
@@ -45,7 +45,7 @@ class TweetInfoSpider(BaseSpider):
         try:
             page = data['cardlistInfo']['since_id']
         except KeyError:
-            log.msg("Maybe KeyError: 'since_id', the spider finish the task he could do", level=log.INFO)
+            logging.info("Maybe KeyError: 'since_id', the spider finish the task he could do")
             page = None
         uid = response.meta['uid']
         last_page = response.meta['last_page']
