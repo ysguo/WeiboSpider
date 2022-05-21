@@ -11,7 +11,7 @@ class TweetConfig(Config):
         super(TweetConfig, self).__init__()
         # replace &page to &since_id
         self.__api = {
-            'api_0': 'api/container/getIndex?type=uid&value=',
+            'api_0': 'api/container/getIndex?type=__uid&value=',
             'api_1': '&containerid=107603',
             'api_2': '&since_id=',
             'longtext_api': 'statuses/extend?id='

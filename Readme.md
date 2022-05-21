@@ -168,8 +168,14 @@ To be contiuned...暂时先挖一个坑...
 
 #### 定义你自己的爬虫
 
-###更新 2022/5/20
+###更新 
+
+2022/5/20
 1. 主要 url里page替换成了since_id
 2. 不登录，最多2000千条记录
-3. LongText 那个URL经常不稳定，可以和反爬有关
+3. LongText 那个URL经常不稳定，可能和反爬有关
+
+2022/5/21
+1. Mainly modify the last_page as the controller of the craw cycles.
+
 

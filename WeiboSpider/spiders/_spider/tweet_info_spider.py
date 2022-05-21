@@ -5,6 +5,7 @@
 
 from json import loads, JSONDecodeError
 from scrapy import Request
+from scrapy import log
 from WeiboSpider.base import BaseSpider
 from WeiboSpider.config import TweetConfig
 from WeiboSpider.items import TweetItem, LongtextItem
@@ -41,16 +42,26 @@ class TweetInfoSpider(BaseSpider):
         weibo_info = loads(response.text)
         data = weibo_info['data']
         # page = data['cardlistInfo']['page']
-        if data['cardlistInfo']['since_id']:
+        try:
             page = data['cardlistInfo']['since_id']
-        else:
+        except KeyError:
+            log.msg("Maybe KeyError: 'since_id', the spider finish the task he could do", level=log.INFO)
             page = None
         uid = response.meta['uid']
         last_page = response.meta['last_page']
-        if page is not None and int(page) != last_page:
-            url = self._t_generator.gen_url(uid=uid, page=page)
-            yield Request(url=url, dont_filter=True, callback=self._parse_tweet, errback=self.parse_err,
-                          meta={'uid': uid, 'last_page': int(page)})
+        if last_page == 0:
+            if page is not None and int(page) != last_page:
+                url = self._t_generator.gen_url(uid=uid, page=page)
+                yield Request(url=url, dont_filter=True, callback=self._parse_tweet, errback=self.parse_err,
+                              meta={'uid': uid, 'last_page': last_page})
+        elif last_page > 1:
+            if page is not None and int(page) != last_page:
+                print(last_page)
+                url = self._t_generator.gen_url(uid=uid, page=page)
+                yield Request(url=url, dont_filter=True, callback=self._parse_tweet, errback=self.parse_err,
+                              meta={'uid': uid, 'last_page': int(last_page-1)})
+        else:
+            pass
 
         for card in data['cards']:
             item = TweetItem()
